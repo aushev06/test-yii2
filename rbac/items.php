@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'createOrder' => [
-        'type' => 2,
-        'description' => 'Создание заказа',
-    ],
     'admin' => [
         'type' => 1,
         'children' => [
@@ -17,6 +13,10 @@ return [
             'deleteProduct',
             'products',
         ],
+    ],
+    'createOrder' => [
+        'type' => 2,
+        'description' => 'Создание заказа',
     ],
     'updateOrder' => [
         'type' => 2,

@@ -17,7 +17,7 @@ class m240321_112202_create_users_table extends Migration
             'login' => $this->string()->notNull(),
             'password_hash' => $this->string()->notNull(),
             'access_token' => $this->string()->null(),
-        ]);
+        ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     }
 
     /**
