@@ -1,5 +1,9 @@
 <?php
 
+use yii\web\JsonParser;
+use yii\web\JsonResponseFormatter;
+use yii\web\Response;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -7,21 +11,56 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'modules' => [
+        'v1' => [
+            'class' => 'app\modules\v1\Module',
+        ],
+    ],
+//    'response' => [
+//        'class' => Response::class,
+//        'formatters' => [
+//            Response::FORMAT_JSON => [
+//                'class' => JsonResponseFormatter::class,
+//                'prettyPrint' => YII_DEBUG,
+//                'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+//                // ...
+//            ],
+//        ],
+//    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'ewfwefwefwefwef',
+            'parsers' => [
+                'application/json' => JsonParser::class,
+                'multipart/form-data' => 'yii\web\MultipartFormDataParser'
+            ],
+        ],
+        'response' => [
+            'class' => Response::class,
+            'formatters' => [
+                Response::FORMAT_JSON => [
+                    'class' => JsonResponseFormatter::class,
+                    'prettyPrint' => YII_DEBUG,
+                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                    // ...
+                ],
+            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            'enableSession' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -44,8 +83,10 @@ $config = [
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
+                'POST v1/auth/login' => 'v1/auth/index'
             ],
         ],
     ],
