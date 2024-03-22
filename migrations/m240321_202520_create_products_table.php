@@ -17,6 +17,8 @@ class m240321_202520_create_products_table extends Migration
             'name' => $this->string()->notNull(),
             'slug' => $this->string()->notNull(),
             'price' => $this->decimal(19, 4)->notNull(),
+            'updated_at' => 'timestamp on update current_timestamp DEFAULT NOW()',
+            'created_at' => 'timestamp DEFAULT NOW()',
         ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
 
         $this->createIndex('idx-name-products', 'products', 'name');

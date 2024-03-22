@@ -10,7 +10,10 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        \app\bootstrap\Bootstrap::class
+    ],
     'modules' => [
         'v1' => [
             'class' => 'app\modules\v1\Module',
@@ -35,6 +38,7 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\PhpManager',
         ],
+
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'ewfwefwefwefwef',
@@ -86,7 +90,11 @@ $config = [
             'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
-                'POST v1/auth/login' => 'v1/auth/index'
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/product'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/order'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/admin/product'],
+                'POST v1/auth/login' => 'v1/auth/index',
+                'POST v1/products/<slug:\\w+>/buy' => 'v1/product/buy',
             ],
         ],
     ],

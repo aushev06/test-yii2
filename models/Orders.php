@@ -29,6 +29,13 @@ class Orders extends \yii\db\ActiveRecord
         return 'orders';
     }
 
+    public function extraFields()
+    {
+        return [
+          'product'
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

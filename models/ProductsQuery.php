@@ -31,4 +31,9 @@ class ProductsQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function slug($slug)
+    {
+        return parent::where(['slug' => $slug]);
+    }
 }

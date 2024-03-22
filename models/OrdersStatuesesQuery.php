@@ -31,4 +31,9 @@ class OrdersStatuesesQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function completed(): OrdersStatuesesQuery
+    {
+        return parent::where(['slug' => 'completed']);
+    }
 }

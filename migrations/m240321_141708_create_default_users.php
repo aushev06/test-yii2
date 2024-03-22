@@ -25,6 +25,11 @@ class m240321_141708_create_default_users extends Migration
         $adminId = $this->db->createCommand('SELECT id FROM users WHERE login = :login', [':login' => 'admin'])->queryScalar();
 
         $auth = Yii::$app->authManager;
+
+        $auth->removeAllAssignments();
+        $auth->removeAllPermissions();
+        $auth->removeAllRoles();
+
         $permissions = [
             'createOrder' => 'Создание заказа',
             'updateOrder' => 'Редактирование заказа',
